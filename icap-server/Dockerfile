@@ -7,5 +7,5 @@ ADD ./requirements.txt ./
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 1344/tcp
+EXPOSE 13440/tcp 13440/udp
 CMD ["python", "/sbin/icap_server.py"]

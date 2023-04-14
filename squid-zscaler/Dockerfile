@@ -1,4 +1,5 @@
-FROM centos
+# FROM centos
+FROM rockylinux:9
 
 ENV SQUID_VERSION=4.4 \
     SQUID_CACHE_DIR=/var/spool/squid \
@@ -9,7 +10,8 @@ RUN groupadd -g 1000 ${SQUID_USER} \
   && useradd -u 1000 ${SQUID_USER} -g 1000
 
 # You will need the usual build chain
-RUN yum install -y perl gcc autoconf automake make sudo wget libxml2-devel libcap-devel libtool-ltdl-devel curl bzip2 gcc-c++ patch which httpd-tools && \
+# RUN yum install -y perl gcc autoconf automake make sudo wget libxml2-devel libcap-devel libtool-ltdl-devel curl bzip2 gcc-c++ patch which httpd-tools && \
+RUN yum install -y perl gcc autoconf automake make sudo wget libxml2-devel libcap-devel bzip2 gcc-c++ patch which httpd-tools && \
   yum clean -y all
 
 ADD ./Connection_Established.patch /tmp/
@@ -23,7 +25,7 @@ RUN curl -O http://www.squid-cache.org/Versions/v4/squid-4.4.tar.bz2 && tar -xvj
   --libexecdir=/usr/lib/squid \
   --localstatedir=/var \
   --sysconfdir=/etc/squid && \
-  make && \
+  make CFLAGS="-Wno-deprecated-register" && \
   make install
 
 ADD ./entrypoint.sh /sbin/

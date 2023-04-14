@@ -17,10 +17,10 @@ class ICAPHandler(BaseICAPRequestHandler):
         print("Response")
         self.send_headers(True)
 
-port = 1344
-server = ThreadingSimpleServer(('127.0.0.1', port), ICAPHandler)
+port = 13440
+server = ThreadingSimpleServer((b'', port), ICAPHandler)
 try:
     while 1:
         server.handle_request()
 except KeyboardInterrupt:
-    print ("Finished")
+    print("Finished")

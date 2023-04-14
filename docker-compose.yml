@@ -1,16 +1,17 @@
 # vim: ts=2 sw=2 et
 version: '3.6'
 
+name: squid-proj
 services:
   squid-zscaler-noauth:
     build: ./squid-zscaler
-    image: squid-zscaler
+    image: localhost/squid-zscaler
     ports:
       - "4128:3128"
 
   squid-zscaler-auth:
     # build: ./squid-zscaler
-    image: squid-zscaler
+    image: localhost/squid-zscaler
     ports:
           - "4129:3128"
     environment:
@@ -20,12 +21,12 @@ services:
 
   squid-classic-noauth:
     build: ./squid-classic
-    image: squid-classic
+    image: localhost/squid-classic
     ports:
           - "3129:3128"
 
   squid-classic-auth:
-    image: squid-classic
+    image: localhost/squid-classic
     ports:
           - "3128:3128"
     environment:
@@ -34,7 +35,7 @@ services:
       - AUTH=1
 
   squid-icap-noauth:
-    image: squid-classic
+    image: localhost/squid-classic
     ports:
           - "5129:3128"
     environment:
@@ -42,6 +43,9 @@ services:
 
   python-icap-server:
     build: ./icap-server
-    image: python-icap-server
+    image: localhost/python-icap-server
     ports:
-          - "1344:1344"
+          - "13440:13440"
+  tcpdump:
+    image: corfr/tcpdump
+    command: "-i any port 13440"
